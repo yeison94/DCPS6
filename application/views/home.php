@@ -9,7 +9,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   </head>
   <body>
     <ul>
-    <li>Registrar Granjero</li>
+    <li><a href="<?php echo site_url('Granjero/registrar/formulario')?>">Registrar Granjero</a></li>
     <li>Registrar Finca</li>
     <li>Listar Granjeros</li>
     <li>Listar Fincas</li>

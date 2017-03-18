@@ -14,38 +14,46 @@ class Granjero extends CI_Controller {
   $this->load->view('home');
  }
 
-//   function register(){
-//               $config = array(
-//         array(
-//                 'field' => 'nombre',
-//                 'label' => 'Nombre',
-//                 'rules' => 'required'
-//         ),
-//         array(
-//                 'field' => 'salario',
-//                 'label' => 'Salario',
-//                 'rules' => 'required',
-//                 'errors' => array(
-//                         'required' => 'You must provide a %s.',
-//                 ),
-//         ),
-//         array(
-//                 'field' => 'sexo',
-//                 'label' => 'Sexo',
-//                 'rules' => 'required'
-//         )
-//        );
 
-//         $this->form_validation->set_rules($config);
+  function registrar($opcion = NULL){
 
-//         if ($this->form_validation->run() == FALSE)
-//         {
-//                 $this->load->view('Formulario_nuevo');
-//         }
-//         else
-//         {
-//                 $this->load->view('Formsuccess');
-//         }
-//   }
+    $this->load->model('Granjero_model');
+
+      if($opcion == "formulario"){
+
+        $this->load->view('registrar_granjero');
+
+      }elseif ($opcion == "validar") {
+
+        $this->form_validation->set_rules('id', 'id', 'required');
+        $this->form_validation->set_rules('nombre', 'nombre', 'required');
+        $this->form_validation->set_rules('edad', 'edad', 'required');
+        $this->form_validation->set_rules('sexo', 'sexo', 'required|in_list[F,M]');
+       
+       if ($this->form_validation->run() == FALSE){
+
+            $this->load->view('registrar_granjero');
+
+        }else{
+
+          $value['id'] = $this->input->post('id');
+          $value['nombre'] = $this->input->post('nombre');
+          $value['edad'] = $this->input->post('edad');
+          $value['sexo'] = $this->input->post('sexo');
+
+          $granjero = new Granjero_model($value);
+          $resultado = $granjero->registrar();
+
+          if($resultado == TRUE){
+            echo "Granjero insertado";
+          }else{
+            echo "Fallo al insertar granjero";
+          }
+
+        }
+        
+      }
+     
+  }
 
 }
