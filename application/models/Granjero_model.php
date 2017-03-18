@@ -50,6 +50,39 @@ class Granjero_model extends CI_Model {
 		return $this->db->insert('granjero', $data);
 	}
 
+	public function obtener_todas() {
+		$query = $this->db->get('granjero');
+
+		$result = [];
+
+		foreach ($query->result() as $key=>$granjero) {
+			$result[$key] = new Granjero_model($granjero);
+		}
+		return $result;
+	}
+
+	public function obtener_datos() {
+		$query = $this->db->get_where('granjero', ['id' => $this->id]);
+		$result = $query->result();
+		if (empty($result)) {
+			return FALSE;
+		} else {
+			$this->id = $result[0]->id;
+			$this->nombre = $result[0]->nombre;
+			$this->edad = $result[0]->edad;
+			$this->sexo = $result[0]->sexo;
+			return $this;
+		}
+	}
+
+	public function obtener_fincas() {
+	$this->load->model('Finca_model');
+
+     $fincas = $this->Finca_model->obtener_fincas_por_granjero($this);
+    //var_dump($fincas);	
+	return $fincas;
+	}
+
 	// public function actualizar() {
 	// 	$data = [
 	// 		'tipo_documento' => $this->tipo_documento,
@@ -66,48 +99,6 @@ class Granjero_model extends CI_Model {
 	// 	];
 
 	// 	return $this->db->update('persona', $data, array('numero_documento' => $this->numero_documento));
-	// }
-
-	// public function obtener_datos() {
-	// 	$query = $this->db->get_where('persona', ['numero_documento' => $this->numero_documento]);
-	// 	$result = $query->result();
-	// 	if (empty($result)) {
-	// 		return FALSE;
-	// 	} else {
-	// 		$this->tipo_documento = $result[0]->tipo_documento;
-	// 		$this->numero_documento = $result[0]->numero_documento;
-	// 		$this->nombre = $result[0]->nombre;
-	// 		$this->apellido = $result[0]->apellido;
-	// 		$this->sexo = $result[0]->sexo;
-	// 		$this->fecha_nacimiento = $result[0]->fecha_nacimiento;
-	// 		$this->direccion = $result[0]->direccion;
-	// 		$this->ciudad = $result[0]->ciudad;
-	// 		$this->nacionalidad = $result[0]->nacionalidad;
-	// 		$this->email = $result[0]->email;
-	// 		$this->telefono = $result[0]->telefono;
-	// 		return $this;
-	// 	}
-	// 	//return $this->numero_documento;
-	// }
-
-
-	// public function obtener_estudios() {
-	// 	$this->load->model('Estudio');
-
-	// 	return $this->estudios = $this->Estudio->obtener_estudios_por_persona($this);
-	//     //return $this->Estudio->obtener_estudios_por_persona($this);
-	// }
-
-
-	// public function obtener_todas() {
-	// 	$query = $this->db->get('persona');
-
-	// 	$result = [];
-
-	// 	foreach ($query->result() as $key=>$persona) {
-	// 		$result[$key] = new Persona($persona);
-	// 	}
-	// 	return $result;
 	// }
 	
 	// public function obtener_persona($numero_documento) {

@@ -12,7 +12,7 @@ class Granjero extends CI_Controller {
 
   function index(){
   $this->load->view('home');
- }
+  }
 
 
   function registrar($opcion = NULL){
@@ -56,4 +56,36 @@ class Granjero extends CI_Controller {
      
   }
 
+  function listar(){
+
+     $this->load->model('Granjero_model');
+     $resultado = $this->Granjero_model->obtener_todas();
+
+    //  var_dump($resultado);
+     $cantidad_granjeros = count($resultado);
+     for ($i=0; $i <  $cantidad_granjeros; $i++) { 
+       	$indice = "granjero".($i+1);
+      	$result[$indice] =  $resultado[$i];
+     }
+
+    $result['cantidad'] = $cantidad_granjeros;
+     $this->load->view('Listar_granjeros',$result);
+
+
+  }
+
+  function listar_detalle($id = NULL){
+    $this->load->model('Granjero_model');
+    if($id != NULL){
+      $value['id'] = $id;
+      $granjero = new Granjero_model($value);
+      $granjero->obtener_datos();
+      $data['granjero'] = $granjero;
+      $fincas = $granjero->obtener_fincas();
+      $data['fincas'] = $fincas;
+      //var_dump($fincas);
+      $this->load->view('Listar_detalle_granjero',$data);
+     
+    }
+  }
 }
