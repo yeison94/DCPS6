@@ -79,6 +79,52 @@ class Finca_model extends CI_Model {
 		return $fincas;
 	}
 
-	
+	public function obtener_todas() {
+		$query = $this->db->get('finca');
+
+		$result = [];
+
+		foreach ($query->result() as $key=>$finca) {
+			$result2 = [];
+			$result2[] = $finca->granjero;
+			$result2[] = new Finca_model($finca);
+			$result[] = $result2;
+
+		}
+		return $result;
+	}
+
+	public function obtener_finca($granjero) {
+
+		$this->db->from('finca')
+			->where('granjero', $granjero->id)
+			->where('id', $this->id);
+
+		$finca = $this->db->get()->result();
+		
+		return $finca;
+
+
+	}
+
+	public function inventario_granjeros(){
+
+
+
+		$this->db->select_sum('cantidad_vacas')
+		    ->from('finca')
+			->join('granjero', 'finca.granjero = granjero.id')
+			->group_by('granjero');
+
+			
+
+		$suma_vacas = $this->db->get()->result();
+
+		// // foreach ($suma_vacas as $granjero_vacas) {
+		// // 	# code...
+		// // }
+
+		var_dump($suma_vacas);
+	}
 
 }

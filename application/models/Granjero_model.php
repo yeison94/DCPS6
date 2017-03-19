@@ -76,11 +76,11 @@ class Granjero_model extends CI_Model {
 	}
 
 	public function obtener_fincas() {
-	$this->load->model('Finca_model');
+		$this->load->model('Finca_model');
 
-     $fincas = $this->Finca_model->obtener_fincas_por_granjero($this);
-    //var_dump($fincas);	
-	return $fincas;
+		$fincas = $this->Finca_model->obtener_fincas_por_granjero($this);
+		//var_dump($fincas);	
+		return $fincas;
 	}
 
 	// public function actualizar() {

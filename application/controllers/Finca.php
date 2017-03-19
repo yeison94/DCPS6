@@ -62,4 +62,47 @@ class Finca extends CI_Controller {
      
   }
 
+   function listar(){
+
+     $this->load->model('Granjero_model');
+     $this->load->model('Finca_model');
+     $resultado = $this->Finca_model->obtener_todas();
+
+    $result['fincas'] = $resultado;
+     $this->load->view('Listar_fincas',$result);
+
+  }
+
+  function lista_especifica($opcion = NULL){
+    $this->load->model('Granjero_model');
+     $this->load->model('Finca_model');
+
+    if($opcion=="formulario"){
+      $this->load->view('buscar_finca');
+    }else if($opcion=="validar"){
+      $this->form_validation->set_rules('id_finca', 'id_finca', 'required');
+      $this->form_validation->set_rules('id_granjero', 'id_granjero', 'required');
+       
+       if ($this->form_validation->run() == FALSE){
+
+            $this->load->view('buscar_finca');
+
+        }else{
+
+          $value2['id'] = $this->input->post('id_granjero');
+          $granjero = new Granjero_model($value2);
+          $value['id'] = $this->input->post('id_finca');
+          $finca = new Finca_model($value);
+
+          $resultado =  $finca->obtener_finca($granjero);
+          $data['finca'] = $resultado;
+
+
+          $this->load->view('Listar_finca',$data);
+
+        }
+
+    }
+  }
+
 }
