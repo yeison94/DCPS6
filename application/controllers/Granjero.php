@@ -92,7 +92,10 @@ class Granjero extends CI_Controller {
   function inventario(){
      $this->load->model('Finca_model');
      $finca = new Finca_model();
-     $finca->inventario_granjeros();
-
+     $total = $finca->inventario_granjeros();
+     //var_dump($total);
+     $data['total'] = $total;
+     $this->load->view('Listar_inventario',$data);
+    
   }
 }

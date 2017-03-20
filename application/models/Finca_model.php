@@ -109,22 +109,30 @@ class Finca_model extends CI_Model {
 
 	public function inventario_granjeros(){
 
+		$resultado = [];
 
+		// $this->db->select_sum('cantidad_vacas')
+		//     ->from('finca')
+		// 	->join('granjero', 'finca.granjero = granjero.id')
+		// 	->group_by('granjero');
+		//$suma_vacas = $this->db->get()->result();
 
-		$this->db->select_sum('cantidad_vacas')
-		    ->from('finca')
-			->join('granjero', 'finca.granjero = granjero.id')
-			->group_by('granjero');
+		$query_str = "SELECT id_granjero,MAX(sumatoria) as total FROM (SELECT finca.granjero as id_granjero, SUM(cantidad_vacas) as sumatoria FROM finca INNER JOIN granjero ON finca.granjero=granjero.id GROUP BY granjero) a";
+        
+		$query=$this->db->query($query_str);
 
-			
+		$resultado[] = $query->row();
 
-		$suma_vacas = $this->db->get()->result();
+	    $query_str = "SELECT id_granjero,MAX(sumatoria) as total FROM (SELECT finca.granjero as id_granjero, SUM(cantidad_gallinas) as sumatoria FROM finca INNER JOIN granjero ON finca.granjero=granjero.id GROUP BY granjero) a";
 
-		// // foreach ($suma_vacas as $granjero_vacas) {
-		// // 	# code...
-		// // }
+		$query=$this->db->query($query_str);
 
-		var_dump($suma_vacas);
+		$resultado[] = $query->row();
+
+		//var_dump($resultado);
+
+		return $resultado;
+
 	}
 
 }
