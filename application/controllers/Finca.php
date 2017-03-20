@@ -11,7 +11,7 @@ class Finca extends CI_Controller {
   }
 
   function index(){
-  $this->load->view('home');
+    $this->load->view('home');
  }
 
 
@@ -67,8 +67,7 @@ class Finca extends CI_Controller {
      $this->load->model('Granjero_model');
      $this->load->model('Finca_model');
      $resultado = $this->Finca_model->obtener_todas();
-
-    $result['fincas'] = $resultado;
+     $result['fincas'] = $resultado;
      $this->load->view('Listar_fincas',$result);
 
   }
@@ -105,4 +104,23 @@ class Finca extends CI_Controller {
     }
   }
 
-}
+  function inventario(){
+    $this->load->model('Finca_model');
+     $finca = new Finca_model();
+     $total = $finca->inventario_fincas();
+     //var_dump($total);
+     $data['total'] = $total;
+     $this->load->view('Listar_fincas_condicion',$data);
+  }
+
+  function eliminar($id = NULL){
+    if($id != NULL){}
+     $this->load->model('Finca_model');  
+     $value['id'] = $id;
+     $finca = new Finca_model($value);
+     $result = $finca->eliminar();
+     //var_dump($result);
+     $this->listar();
+    }
+  }
+

@@ -15,7 +15,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <li><a href="<?php echo site_url('Finca/listar')?>">Listar Fincas</a></li>
     <li><a href="<?php echo site_url('Finca/lista_especifica/formulario')?>">Listar Finca dado su id y dueño</a></li>
     <li><a href="<?php echo site_url('Granjero/inventario')?>">Granjero con mas vacas y gallinas</a></li>
-    <li>Fincas con mas de 3 gallinas y menos de 5 vacas</li>
+    <li><a href="<?php echo site_url('Finca/inventario')?>">Fincas con mas de 3 gallinas y menos de 5 vacas</a></li>
     </ul>
   </body>
 </html>

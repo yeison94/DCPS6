@@ -135,4 +135,27 @@ class Finca_model extends CI_Model {
 
 	}
 
+	public function inventario_fincas(){
+
+		$resultado = [];
+
+		$this->db->select('nombre')
+		    ->from('finca')
+			->where('cantidad_gallinas>',3)
+			->where('cantidad_vacas<',5);
+
+		$resultado = $this->db->get()->result();
+
+
+		//var_dump($resultado);
+
+		return $resultado;
+
+	}
+
+	public function eliminar(){
+		$this->db->where('id', $this->id);
+        return $this->db->delete('finca');
+	}
+
 }
